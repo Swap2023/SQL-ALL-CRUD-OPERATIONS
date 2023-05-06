@@ -1,0 +1,276 @@
+https://archive.ics.uci.edu/ml/machine-learning-databases/00222/
+
+https://archive.ics.uci.edu/ml/datasets/bank+marketing
+
+show databases
+create database if not exists  ineuron
+use ineuron
+
+
+
+create table Bank (
+age int ,
+job varchar(30) , 
+marital varchar(30) , 
+education varchar(30),
+`default` varchar(30),
+balance int,
+housing varchar(30) , 
+loan varchar(30) ,
+contact varchar(30) , 
+`day` int , 
+`month` varchar(30) , 
+duration int , 
+campaign int , 
+pdays int , 
+previous int , 
+poutcome varchar(30),
+y varchar(30))
+
+
+create table if not exists Bank (
+age int ,
+job varchar(30) , 
+marital varchar(30) , 
+education varchar(30),
+`default` varchar(30),
+balance int,
+housing varchar(30) , 
+loan varchar(30) ,
+contact varchar(30) , 
+`day` int , 
+`month` varchar(30) , 
+duration int , 
+campaign int , 
+pdays int , 
+previous int , 
+poutcome varchar(30),
+y varchar(30))
+
+
+
+show tables
+
+Describe Bank
+
+
+insert into Bank values (58,"management","married","tertiary","no",2143,"yes","no","unknown",5,"may",261,1,-1,0,"unknown","no")
+
+
+
+ insert into Bank values 
+(44,"technician","single","secondary","no",29,"yes","no","unknown",5,"may",151,1,-1,0,"unknown","no"),
+(33,"entrepreneur","married","secondary","no",2,"yes","yes","unknown",5,"may",76,1,-1,0,"unknown","no"),
+(47,"blue-collar","married","unknown","no",1506,"yes","no","unknown",5,"may",92,1,-1,0,"unknown","no"),
+(33,"unknown","single","unknown","no",1,"no","no","unknown",5,"may",198,1,-1,0,"unknown","no"),
+(35,"management","married","tertiary","no",231,"yes","no","unknown",5,"may",139,1,-1,0,"unknown","no"),
+(28,"management","single","tertiary","no",447,"yes","yes","unknown",5,"may",217,1,-1,0,"unknown","no"),
+(42,"entrepreneur","divorced","tertiary","yes",2,"yes","no","unknown",5,"may",380,1,-1,0,"unknown","no"),
+(58,"retired","married","primary","no",121,"yes","no","unknown",5,"may",50,1,-1,0,"unknown","no"),
+(43,"technician","single","secondary","no",593,"yes","no","unknown",5,"may",55,1,-1,0,"unknown","no"),
+(41,"admin.","divorced","secondary","no",270,"yes","no","unknown",5,"may",222,1,-1,0,"unknown","no"),
+(29,"admin.","single","secondary","no",390,"yes","no","unknown",5,"may",137,1,-1,0,"unknown","no"),
+(53,"technician","married","secondary","no",6,"yes","no","unknown",5,"may",517,1,-1,0,"unknown","no"),
+(58,"technician","married","unknown","no",71,"yes","no","unknown",5,"may",71,1,-1,0,"unknown","no"),
+(57,"services","married","secondary","no",162,"yes","no","unknown",5,"may",174,1,-1,0,"unknown","no"),
+(51,"retired","married","primary","no",229,"yes","no","unknown",5,"may",353,1,-1,0,"unknown","no"),
+(45,"admin.","single","unknown","no",13,"yes","no","unknown",5,"may",98,1,-1,0,"unknown","no"),
+(57,"blue-collar","married","primary","no",52,"yes","no","unknown",5,"may",38,1,-1,0,"unknown","no"),
+(60,"retired","married","primary","no",60,"yes","no","unknown",5,"may",219,1,-1,0,"unknown","no")
+
+
+
+
+
+select * from Bank
+select age , job from  Bank 
+select `default` , age from  Bank 
+select * from Bank where  age = 41
+select job from Bank where age =41
+
+
+select * from Bank where job = 'retired' and balance > 100
+
+select * from Bank where education = 'primary' or balance < 100
+
+select * from Bank where education = 'primary' and  balance < 100
+
+select * from Bank
+select age , job from  Bank 
+select `default` , age from  Bank 
+select * from Bank where  age = 41
+select job from Bank where age =41
+
+select * from Bank where job = 'retired' and balance > 100
+
+select * from Bank where education = 'primary' or balance < 100
+
+select * from Bank where education = 'primary' and  balance < 100
+
+select distinct job from  Bank 
+
+select * from Bank order by age 
+
+select * from Bank order by age desc 
+
+select count(*) from Bank 
+
+select sum(balance) from Bank
+select avg(balance) from Bank  
+select * from Bank where  balance = (select min(balance) from Bank ) 
+
+SELECT count(*) from Bank group by marital 
+
+SELECT marital,count(*) from Bank group by marital 
+
+SELECT marital,count(*), sum(balance) from Bank group by marital 
+
+SELECT marital,count(*), sum(balance) from Bank group by marital having sum(balance >300)
+
+
+set sql_safe_updates = 0 
+update Bank set balance = 0 where job = 'unknown'
+
+
+update Bank set contact = 'known' , y = 'yes' where month = 'may'
+update Bank set `default` = 'NULL' where `default`= 'no';
+
+
+
+
+DELIMITER &&  
+create procedure select_pre() 
+BEGIN
+	select * from Bank; 
+END &&  
+
+call select_pre()
+
+
+DELIMITER &&  
+create procedure select_pre_filter() 
+BEGIN
+	select * from Bank where job = 'retired' and balance > 100;
+END &&  
+
+call select_pre_filter()
+
+
+DELIMITER &&  
+create procedure select_pre_filter2(IN var int ,IN var1 varchar(30)) 
+BEGIN
+	select * from Bank where job = var1 and balance > var;
+END &&  
+
+call select_pre_filter2(100 ,'services' )
+
+call select_pre()
+
+select * from (select  job , age , education , y from Bank ) as a where a.age = 58
+
+select job , age , education, y from Bank where age = 58 
+
+create view bank_view as select  job , age , education , y from Bank
+
+select * from bank_view where age = 58 
+
+
+
+create table if not exists Bank1 (
+age int ,
+job varchar(30) , 
+marital varchar(30) , 
+education varchar(30),
+`default` varchar(30),
+balance int,
+housing varchar(30) , 
+loan varchar(30) ,
+contact varchar(30) , 
+`day` int , 
+`month` varchar(30) , 
+duration int , 
+campaign int , 
+pdays int , 
+previous int , 
+poutcome varchar(30),
+y varchar(30))
+
+show tables
+
+insert into Bank1 select * from Bank ;
+
+select * from Bank1 
+
+
+create table if not exists Bank2 (
+age int ,
+job varchar(30) , 
+marital varchar(30) , 
+education varchar(30),
+`default` varchar(30),
+balance int,
+housing varchar(30) , 
+loan varchar(30) ,
+contact varchar(30) , 
+`day` int , 
+`month` varchar(30) , 
+duration int , 
+campaign int , 
+pdays int , 
+previous int , 
+poutcome varchar(30),
+y varchar(30))
+
+show tables
+
+insert into Bank2 select * from Bank where age = 58;
+
+select * from Bank2
+
+select Bank.age , Bank.job , Bank.marital from Bank inner join Bank2 on Bank.age =Bank2.age
+
+select * from Bank
+select Bank.age , Bank.job , Bank.marital from Bank right join Bank2 on Bank.age =Bank2.age
+
+select Bank.age , Bank.job , Bank.marital from Bank left join Bank2 on Bank.age =Bank2.age
+
+https://cloud.mongodb.com/v2/61067239fcc7ab33b6d8477e#clusters
+
+
+
+pip install "pymongo[srv]"
+
+
+client = pymongo.MongoClient("mongodb+srv://ineuron:mongodb123@cluster0.goi2j.mongodb.net/?retryWrites=true&w=majority")
+db = client.test
+print(db)
+
+
+
+
+
+
+import pymongo
+client = pymongo.MongoClient("mongodb+srv://ineuron:mongodb123@cluster0.goi2j.mongodb.net/?retryWrites=true&w=majority")
+db = client.test
+print(db)
+
+d = {
+    "name":"sudhanshu",
+    "email" : "sudhanshu@ineuron.ai",
+    "surname" : "kumar"
+}
+db1 = client['mongotest']
+coll = db1['test']
+coll.insert_one(d )
+
+
+
+
+git 
+
+https://git-scm.com/downloads
+
+
+
+https://github.com/sudh9931/testgitpush.git
